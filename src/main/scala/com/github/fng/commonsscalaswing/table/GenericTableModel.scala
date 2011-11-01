@@ -58,6 +58,8 @@ object GenericTableModel {
       def isDefinedAt(pair: (AnyRef, Class[_])): Boolean = false
     }
 
+    var _preferredWidth: Option[Int] = None
+
     def name_=(name: String) {
       _name = name
     }
@@ -105,6 +107,12 @@ object GenericTableModel {
 
     def customCellRenderer: Option[ComponentCellRenderer[T]] = _customCellRenderer
 
+
+    def preferredWidth_=(preferredWidth: Int){
+      _preferredWidth = Some(preferredWidth)
+    }
+
+    def preferredWidth: Option[Int] = _preferredWidth
 
     def update(t: T, value: AnyRef) {
       val caster = _customCastHelper orElse

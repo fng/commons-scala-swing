@@ -30,6 +30,12 @@ abstract class GenericTable[T](columns: List[Column[T, _]], data: List[T]) exten
     case None => super.rendererComponent(isSelected, focused, row, column)
   }
 
+  columns.map(_.preferredWidth).zipWithIndex.foreach {
+    case (preferredWith, index) => preferredWith.foreach {
+      width => peer.getColumnModel.getColumn(index).setPreferredWidth(width)
+    }
+  }
+
   columns.foreach {
     column => listenTo(column.columnEventPublisher)
   }
