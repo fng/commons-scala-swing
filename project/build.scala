@@ -8,13 +8,13 @@ object build extends Build {
     base = file("."),
     settings = Defaults.defaultSettings ++ Seq[Project.Setting[_]](
       organization := "com.github.fng",
-      version := "0.1.0-SNAPSHOT",
+      version := "0.2-SNAPSHOT",
       scalaVersion := "2.9.1",
       crossPaths := false,
       publishTo <<= (version) {
         (v: String) =>
           val repoSuffix = if (v.contains("-SNAPSHOT")) "snapshots" else "releases"
-          val resolver = Resolver.file("gh-pages", new File("/Users/daniel/code/fng.github.com/repo", repoSuffix))
+          val resolver = Resolver.file("gh-pages", new File("c:/code/fng.github.com/repo", repoSuffix))
           Some(resolver)
       }
     ) ++ Seq(

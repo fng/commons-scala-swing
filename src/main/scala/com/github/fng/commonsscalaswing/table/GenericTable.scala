@@ -8,6 +8,14 @@ import com.github.fng.commonsscalaswing.table.GenericTableModel.Column
 
 abstract class GenericTable[T](columns: List[Column[T, _]], data: List[T]) extends Table {
 
+  override def apply(row: Int, column: Int): Any = {
+    model.getValueAt(viewToModelRow(row), viewToModelColumn(column))
+  }
+
+  def viewToModelRow(idx: Int) = peer.convertRowIndexToModel(idx)
+
+  def modelToViewRow(idx: Int) = peer.convertRowIndexToView(idx)
+
   val tableModel: GenericTableModel[T] = new GenericTableModel[T](columns, data.toBuffer)
   model = tableModel
 

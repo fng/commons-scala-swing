@@ -18,9 +18,8 @@
     <annotationProcessing enabled="false" useClasspath="true" />
   </component>
   <component name="SbtSettings">
-    <option name="sbtLauncherJarPath" value="/Applications/sbt/sbt-launch-0.11.0.jar" />
+    <option name="sbtLauncherJarPath" value="C:/Applications/sbt/sbt-launch-0.11.0.jar" />
     <option name="sbtLauncherVmParameters" value="-Dsbt.log.noformat=true -XX:+CMSClassUnloadingEnabled -Xmx1000M -Xss1M -Xmn300M -XX:MaxPermSize=400M -Dhttp.proxyHost=172.22.100.15 -Dhttp.proxyPort=8080 -Dhttp.nonProxyHosts=hudson|nexus" />
-    <option name="useApplicationSettings" value="false" />
   </component>
 </project>
 
