@@ -4,8 +4,8 @@ import collection.mutable.Buffer
 import javax.swing.table.AbstractTableModel
 import java.awt.Color
 import swing.{Publisher, Component}
-import java.lang.Double
 import com.github.fng.commonsscalaswing.table.GenericTableModel.Column
+import java.lang.{Class, Double}
 
 object GenericTableModel {
 
@@ -42,7 +42,7 @@ object GenericTableModel {
 
   }
 
-  class Column[T, F](var _name: String, var _editableMode: EditableMode[T], var _extractor: (T) => F)(implicit val m: Manifest[F]) {
+  class Column[T, F](var _name: String, var _clazz: Class[_], var _editableMode: EditableMode[T], var _extractor: (T) => F)(implicit val m: Manifest[F]) {
 
 
     val columnEventPublisher: ColumnEventPublisher = new ColumnEventPublisher
@@ -65,6 +65,12 @@ object GenericTableModel {
     }
 
     def name: String = _name
+
+    def clazz_=(clazz: Class[_]) {
+      _clazz = clazz
+    }
+
+    def clazz: Class[_] = _clazz
 
 
     def editableMode_=(editableMode: EditableMode[T]) {
@@ -108,7 +114,7 @@ object GenericTableModel {
     def customCellRenderer: Option[ComponentCellRenderer[T]] = _customCellRenderer
 
 
-    def preferredWidth_=(preferredWidth: Int){
+    def preferredWidth_=(preferredWidth: Int) {
       _preferredWidth = Some(preferredWidth)
     }
 
@@ -116,8 +122,8 @@ object GenericTableModel {
 
     def update(t: T, value: AnyRef) {
       val caster = _customCastHelper orElse
-              new StringToJavaLangDoubleCaster orElse
-              new DefaultCaster[F]
+        new StringToJavaLangDoubleCaster orElse
+        new DefaultCaster[F]
       val castedValue = caster((value, manifest.erasure)).asInstanceOf[F]
       updateHandler(t, castedValue)
     }
@@ -154,6 +160,7 @@ class GenericTableModel[T](val columns: List[Column[T, _]], val values: Buffer[T
 
   override def getColumnName(col: Int) = columns(col).name
 
+  override def getColumnClass(col: Int): Class[_] = columns(col).clazz
 
   override def setValueAt(value: AnyRef, row: Int, col: Int) {
     if (values.length > row) {
